@@ -175,6 +175,26 @@ docker run --rm -v "${PWD}:/app" -w /app golang:1.22-alpine go test ./...
 
 ---
 
+## GitHub Actions (CI)
+
+[![CI](https://github.com/LucasLevingston/api-books-golang/actions/workflows/ci.yml/badge.svg)](https://github.com/LucasLevingston/api-books-golang/actions/workflows/ci.yml)
+
+O pipeline roda automaticamente em todo push e pull request para `main`, com dois jobs paralelos:
+
+| Job | O que faz |
+|---|---|
+| **Unit tests** | `go test ./...` — testes unitários de handler e service (sem banco, sem Docker) |
+| **Integration tests** | `go test -tags=integration ./internal/book/...` — testes do repository com Postgres real via testcontainers |
+
+O job de integração também gera o relatório completo de cobertura (handler + service + repository).
+
+Veja o histórico de execuções em:
+```
+https://github.com/LucasLevingston/api-books-golang/actions
+```
+
+---
+
 ## API Reference
 
 ### Base URL
