@@ -55,7 +55,7 @@ Para desenvolvimento local (testes sem Docker):
 ### 1. Clone / acesse o diretório
 
 ```bash
-cd sipug-go-test
+cd api-books-golang
 ```
 
 ### 2. Suba os containers

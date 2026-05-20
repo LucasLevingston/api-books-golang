@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/lucaslevingston/sipug-go-test/internal/book"
+	"github.com/lucaslevingston/api-books-golang/internal/book"
 )
 
 // repoMock implements book.Repository for unit testing the service.

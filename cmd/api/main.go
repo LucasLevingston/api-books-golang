@@ -17,10 +17,10 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/swaggo/swag"
 
-	_ "github.com/lucaslevingston/sipug-go-test/docs"
-	"github.com/lucaslevingston/sipug-go-test/internal/book"
-	"github.com/lucaslevingston/sipug-go-test/internal/platform/database"
-	"github.com/lucaslevingston/sipug-go-test/internal/platform/server"
+	_ "github.com/lucaslevingston/api-books-golang/docs"
+	"github.com/lucaslevingston/api-books-golang/internal/book"
+	"github.com/lucaslevingston/api-books-golang/internal/platform/database"
+	"github.com/lucaslevingston/api-books-golang/internal/platform/server"
 )
 
 func main() {

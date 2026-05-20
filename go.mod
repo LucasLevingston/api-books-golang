@@ -1,4 +1,4 @@
-module github.com/lucaslevingston/sipug-go-test
+module github.com/lucaslevingston/api-books-golang
 
 go 1.22
 
