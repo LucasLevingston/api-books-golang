@@ -1,0 +1,261 @@
+basePath: /
+definitions:
+  book.Book:
+    properties:
+      author:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      masterpiece:
+        type: boolean
+      name:
+        type: string
+      updated_at:
+        type: string
+      year:
+        type: integer
+    type: object
+  book.CreateInput:
+    properties:
+      author:
+        maxLength: 255
+        minLength: 1
+        type: string
+      masterpiece:
+        type: boolean
+      name:
+        maxLength: 255
+        minLength: 1
+        type: string
+      year:
+        maximum: 2100
+        minimum: 1
+        type: integer
+    required:
+    - author
+    - name
+    - year
+    type: object
+  book.PageResult:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/book.Book'
+        type: array
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  book.UpdateInput:
+    properties:
+      author:
+        maxLength: 255
+        minLength: 1
+        type: string
+      masterpiece:
+        type: boolean
+      name:
+        maxLength: 255
+        minLength: 1
+        type: string
+      year:
+        maximum: 2100
+        minimum: 1
+        type: integer
+    type: object
+  book.errorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  book.fieldError:
+    properties:
+      field:
+        type: string
+      message:
+        type: string
+    type: object
+  book.validationErrorResponse:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/book.fieldError'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST API for managing books.
+  title: Books API
+  version: "1.0"
+paths:
+  /books:
+    get:
+      description: Returns a paginated list of books with optional filters.
+      parameters:
+      - description: Filter by author (partial, case-insensitive)
+        in: query
+        name: author
+        type: string
+      - description: Filter masterpieces only
+        in: query
+        name: masterpiece
+        type: boolean
+      - description: Filter by year
+        in: query
+        name: year
+        type: integer
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page, 1-100 (default 10)
+        in: query
+        name: page_size
+        type: integer
+      - description: Sort field
+        enum:
+        - name
+        - author
+        - year
+        - masterpiece
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort direction
+        enum:
+        - asc
+        - desc
+        in: query
+        name: sort_dir
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/book.PageResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+      summary: List books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Creates a new book and returns the created resource.
+      parameters:
+      - description: Book payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/book.CreateInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/book.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/book.validationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+      summary: Create a book
+      tags:
+      - books
+  /books/{id}:
+    delete:
+      description: Deletes a book by ID.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+      summary: Delete a book
+      tags:
+      - books
+    put:
+      consumes:
+      - application/json
+      description: Partially updates a book by ID. All fields are optional.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fields to update
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/book.UpdateInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/book.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/book.validationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/book.errorResponse'
+      summary: Update a book
+      tags:
+      - books
+swagger: "2.0"
