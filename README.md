@@ -112,9 +112,19 @@ docker compose down -v
 
 ### Com Go instalado localmente
 
+**Testes unitários** (sem banco, sem Docker):
+
 ```powershell
 go test ./...
 ```
+
+**Testes de integração** (requer Docker rodando — sobe Postgres automaticamente):
+
+```powershell
+go test -tags=integration ./internal/book/...
+```
+
+> Os testes de integração cobrem todo o `repository.go` usando [`testcontainers-go`](https://golang.testcontainers.org), que sobe um container Postgres real durante a execução e o derruba ao final.
 
 #### Cobertura das rotas (handler)
 
